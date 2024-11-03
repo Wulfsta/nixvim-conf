@@ -20,7 +20,7 @@
         bare = modules bare;
         base = modules base;
         full = modules full;
-        default = self'.packages.base;
+        default = self'.packages.full;
       };
       formatter = pkgs.nixpkgs-fmt;
     };
