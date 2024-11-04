@@ -8,11 +8,6 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
-    calendar = {
-      url = "github:itchyny/calendar.vim";
-      flake = false;
-    };
-
     buffer-manager = {
       url = "github:j-morano/buffer_manager.nvim";
       flake = false;
