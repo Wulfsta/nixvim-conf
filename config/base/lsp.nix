@@ -156,7 +156,7 @@ in
             elixir = "exs",
             javascript = "js",
             julia = "jl",
-              markdown = "md",
+            markdown = "md",
             latex = "tex",
             python = "py",
             ruby = "rb",
