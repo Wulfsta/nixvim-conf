@@ -80,15 +80,6 @@ in
           hint = "${icons.diagnostics.BoldHint}" .. " ",
         },
       }
-      components.copilot =  function()
-        local lsp_clients = vim.lsp.get_active_clients()
-        for _, client in ipairs(lsp_clients) do
-          if client.name == "copilot" then
-            return "%#SLGreen#" .. "${icons.kind.Copilot}"
-          end
-        end
-         return ""
-      end
       components.indicator = function()
         local noice = require("noice")
         return {
@@ -108,7 +99,7 @@ in
             return "Ls Inactive"
           end
           for _, client in ipairs(clients) do
-            if client.name ~= "copilot" and client.name ~= "null-ls" and client.name ~= "typos_lsp" then
+            if client.name ~= "null-ls" and client.name ~= "typos_lsp" then
               local name = client.name:gsub("%[%d+%]", "") -- makes otter-ls[number] -> otter-ls
               table.insert(lsp_names, name)
             end
@@ -141,7 +132,6 @@ in
           components.filetype,
         },
         lualine_y = { "progress" },
-        lualine_z = { "location", components.copilot },
       }
 
       local lualine = require("lualine")

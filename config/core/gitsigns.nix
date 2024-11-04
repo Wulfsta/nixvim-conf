@@ -8,7 +8,6 @@ in {
   plugins.gitsigns = {
     enable = true;
     settings = {
-      current_line_blame = true;
       signs = {
         add = { text = "${icons.ui.LineLeft}"; };
         change = { text = "${icons.ui.LineLeft}"; };
@@ -47,7 +46,7 @@ in {
       (helpers.mkRaw # lua
         ''
           function()
-            require 'gitsigns'.nav_hunk("first") 
+            require 'gitsigns'.nav_hunk("first")
           end
         '')
       "First Hunk")

@@ -78,24 +78,6 @@
                   fallback()
                 end
               end, { "i", "s" }),
-
-
-              ["<c-space>"] = cmp.mapping(function(fallback)
-                local copk = require("copilot")
-                  
-                if copk then
-                  vim.g.copilot_no_tab_map = true
-                  vim.g.copilot_assume_mapped = true
-                  vim.g.copilot_tab_fallback = ""
-
-                  local suggestion = require("copilot.suggestion")
-                  if suggestion.is_visible() then
-                    suggestion.accept()
-                  else
-                    fallback()
-                  end
-                end
-              end,{ "i", "s" }),
             })
           '');
     };
