@@ -11,7 +11,7 @@ with lib;
       inlayHints = mkDefault true;
       servers.nil_ls = {
         enable = true;
-        settings.formatting.command = [ "${lib.getExe pkgs.nixpkgs-fmt}" ];
+        settings.formatting.command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
       };
     };
   };
