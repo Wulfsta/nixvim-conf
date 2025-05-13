@@ -1,18 +1,21 @@
 # This file contains plugins that are basics or don't need their own file
-{ inputs, mkPkgs, mkKey, ... }:
-let inherit (mkKey) mkKeymap;
-in {
+{
+  pkgs,
+  mkKey,
+  ...
+}:
+let
+  inherit (mkKey) mkKeymap;
+in
+{
   # Keeping this at top so that if any plugin is removed it's respective config can be removed
   extraConfigLua = # lua
     ''
       require("windows").setup()
     '';
-  keymaps =
-    [ (mkKeymap "n" "<c-w>=" "<cmd>WindowsEqualize<CR>" "Equalize windows") ];
+  keymaps = [ (mkKeymap "n" "<c-w>=" "<cmd>WindowsEqualize<CR>" "Equalize windows") ];
   extraPlugins = [
-    (mkPkgs "windows" inputs.windows)
-    (mkPkgs "windows-mc" inputs.windows-mc)
-    (mkPkgs "windows-a" inputs.windows-a)
+    pkgs.vimPlugins.windows-nvim
   ];
   plugins = {
 
@@ -27,11 +30,13 @@ in {
 
     fidget = {
       enable = true;
-      progress.display.progressIcon.pattern = "moon";
-      notification.window = {
-        relative = "editor";
-        winblend = 0;
-        border = "none";
+      settings = {
+        progress.display.progressIcon.pattern = "moon";
+        notification.window = {
+          relative = "editor";
+          winblend = 0;
+          border = "none";
+        };
       };
     };
   };

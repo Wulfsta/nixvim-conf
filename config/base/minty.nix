@@ -1,25 +1,27 @@
-{ mkPkgs, mkKey, inputs, ... }:
-let inherit (mkKey) mkKeymap;
-in {
+{ pkgs, mkKey, ... }:
+let
+  inherit (mkKey) mkKeymap;
+in
+{
 
   extraPlugins = [
-    (mkPkgs "volt" inputs.volt)
-    (mkPkgs "minty" inputs.minty)
+    pkgs.vimPlugins.nvzone-minty
   ];
-  extraConfigLua = /* lua */ ''
-    require('minty').setup({
-      huefy = {
-        mappings = function(bufs)
-            local api = require("minty.shades.api")
-            vim.keymap.set("n", "s", api.save_color, { buffer = buf })
-          end
-      };
-    })
-  '';
+  extraConfigLua = # lua
+    ''
+      require('minty').setup({
+        huefy = {
+          mappings = function(buf)
+              local api = require("minty.shades.api")
+              vim.keymap.set("n", "s", api.save_color, { buffer = buf })
+            end
+        };
+      })
+    '';
 
-  plugins.nvim-colorizer = {
+  plugins.colorizer = {
     enable = true;
-    userDefaultOptions = {
+    settings.userDefaultOptions = {
       css = true;
       mode = "virtualtext";
       tailwind = true;
