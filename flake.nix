@@ -13,6 +13,16 @@
       flake = false;
     };
 
+    minty = {
+      url = "github:NvChad/minty";
+      flake = false;
+    };
+
+    volt = {
+      url = "github:NvChad/volt";
+      flake = false;
+    };
+
     nvim-window-picker = {
       url = "github:s1n7ax/nvim-window-picker";
       flake = false;
@@ -20,6 +30,19 @@
 
     md-pdf = {
       url = "github:arminveres/md-pdf.nvim";
+      flake = false;
+    };
+
+    windows = {
+      url = "github:anuvyklack/windows.nvim";
+      flake = false;
+    };
+    windows-mc = {
+      url = "github:anuvyklack/middleclass";
+      flake = false;
+    };
+    windows-a = {
+      url = "github:anuvyklack/animation.nvim";
       flake = false;
     };
   };
