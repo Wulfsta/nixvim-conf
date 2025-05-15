@@ -7,7 +7,6 @@ in
   plugins.gitsigns = {
     enable = true;
     settings = {
-      current_line_blame = true;
       signs = with icons.ui; {
         add.text = "${LineLeft}";
         change.text = "${LineLeft}";

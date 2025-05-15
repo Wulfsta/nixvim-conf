@@ -33,23 +33,6 @@
               fallback()
             end
           end, { "i", "s" }),
-
-          ---@diagnostic disable-next-line
-          ["<c-space>"] = cmp.mapping(function()
-            local ok,_ = pcall(require, "copilot")
-            if ok then
-              vim.g.copilot_no_tab_map = true
-              vim.g.copilot_assume_mapped = true
-              vim.g.copilot_tab_fallback = ""
-
-              local suggestion = require("copilot.suggestion")
-              if suggestion.is_visible() then
-                suggestion.accept()
-              else
-                cmp.mapping.complete()
-              end
-            end
-          end,{ "i", "s" }),
         })
       ''
   );

@@ -2,19 +2,19 @@
 {
   plugins = {
     lsp.servers = {
-      taplo = {
+      gopls = {
         enable = true;
         filetypes = [
-          "toml"
+          "go"
         ];
       };
     };
     conform-nvim.settings = {
       formatters_by_ft = {
-        toml = [ "taplo" ];
+        go = [ "gofmt" ];
       };
       formatters = {
-        taplo = { command = lib.getExe pkgs.taplo + " format"; };
+        gofmt = { command = lib.getExe pkgs.go + " fmt"; };
       };
     };
   };
