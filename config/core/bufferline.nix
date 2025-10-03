@@ -39,7 +39,6 @@ in {
       ];
     };
   };
-  extraPlugins = [ (mkPkgs "buffer_manager" inputs.buffer-manager) ];
 
   wKeyList = [ (specObj [ "<leader>b" "" "buffers" ]) ];
   keymaps = [
@@ -65,6 +64,6 @@ in {
       "Buffer close all except the current buffer")
     (mkKeymap "n" "<a-s-h>" "<cmd>BufferLineMovePrev<cr>" "Move buffer to left")
     (mkKeymap "n" "<a-s-l>" "<cmd>BufferLineMoveNext<cr>" "Move buffer to right")
- 
+
   ];
 }
