@@ -23,7 +23,7 @@ in
     fidget = {
       enable = true;
       settings = {
-        progress.display.progressIcon.pattern = "moon";
+        progress.display.progress_icon = [ "moon" ];
         notification.window = {
           relative = "editor";
           winblend = 0;
