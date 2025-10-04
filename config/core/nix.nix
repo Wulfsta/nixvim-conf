@@ -6,12 +6,20 @@ with lib;
 {
   plugins = {
     conform-nvim.enable = mkDefault true;
+    conform-nvim.settings = {
+      formatters_by_ft = {
+        nix = [ "nixfmt" ];
+      };
+      formatters = {
+        nixfmt = { command = lib.getExe pkgs.nixfmt-rfc-style; };
+      };
+    };
     lsp = {
       enable = mkDefault true;
       inlayHints = mkDefault true;
       servers.nil_ls = {
         enable = true;
-        settings.formatting.command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
+        #settings.formatting.command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
       };
     };
   };

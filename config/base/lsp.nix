@@ -10,7 +10,12 @@ let
 in
 {
   plugins = {
-    otter.enable = true;
+    otter = {
+      enable = false;
+      settings.buffers = {
+        set_filetype = true;
+      };
+    };
     conform-nvim = {
       enable = true;
       settings = {

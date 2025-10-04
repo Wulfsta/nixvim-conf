@@ -93,7 +93,7 @@ in
       components.fileformat = { "fileformat", cond = nil, padding = { left = 1, right = 1 }, color = "SLGreen" }
       components.lsp = {
         function()
-          local clients = vim.lsp.get_active_clients()
+          local clients = vim.lsp.get_clients()
           local lsp_names = {}
           if next(clients) == nil then
             return "Ls Inactive"
