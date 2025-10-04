@@ -1,4 +1,5 @@
-{ icons, opts, ... }: {
+{ icons, opts, ... }:
+{
 
   performance.byteCompileLua = {
     enable = true;
@@ -13,21 +14,23 @@
   extraConfigLua = # lua
     ''
       local signs = {
-          Hint = "${icons.diagnostics.BoldHint}",
-          Info = "${icons.diagnostics.BoldInformation}",
-          Warn = "${icons.diagnostics.BoldWarning}",
-          Error = "${icons.diagnostics.BoldError}",
-        }
-
-        for type, icon in pairs(signs) do
-          local hl = "DiagnosticSign" .. type
-          vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-        end
+        Hint = "${icons.diagnostics.BoldHint}",
+        Info = "${icons.diagnostics.BoldInformation}",
+        Warn = "${icons.diagnostics.BoldWarning}",
+        Error = "${icons.diagnostics.BoldError}",
+      }
 
       vim.diagnostic.config({
         virtual_text = false,
         underline = true,
-        signs = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.HINT] = signs.Hint,
+            [vim.diagnostic.severity.INFO] = signs.Info,
+            [vim.diagnostic.severity.WARN] = signs.Warn,
+            [vim.diagnostic.severity.ERROR] = signs.Error,
+          },
+        },
         severity_sort = true,
         float = {
           border = "${opts.border}",
