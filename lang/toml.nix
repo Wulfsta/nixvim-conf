@@ -14,7 +14,9 @@
         toml = [ "taplo" ];
       };
       formatters = {
-        taplo = { command = lib.getExe pkgs.taplo + " format"; };
+        taplo = {
+          command = lib.getExe pkgs.taplo + " format";
+        };
       };
     };
   };

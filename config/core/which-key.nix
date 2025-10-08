@@ -1,4 +1,10 @@
-{ opts, lib, config, ... }: {
+{
+  opts,
+  lib,
+  config,
+  ...
+}:
+{
   options.wKeyList = lib.mkOption { type = lib.types.listOf lib.types.attrs; };
   config = {
     plugins.which-key = {

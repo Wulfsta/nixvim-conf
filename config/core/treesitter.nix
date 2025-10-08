@@ -14,13 +14,20 @@
         indent.enable = true;
       };
     };
-    treesitter-textobjects = { enable = true; };
+    treesitter-textobjects = {
+      enable = true;
+    };
     mini.enable = true;
     indent-blankline = {
       enable = true;
       settings = {
         indent.char = "│";
-        exclude.filetypes = [ "''" "lspinfo" "dashboard" "checkhealth" ];
+        exclude.filetypes = [
+          "''"
+          "lspinfo"
+          "dashboard"
+          "checkhealth"
+        ];
       };
     };
   };

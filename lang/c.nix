@@ -37,7 +37,9 @@
         cpp = [ "clang_format" ];
       };
       formatters = {
-        cmake-format = { command = lib.getExe pkgs.cmake-format; };
+        cmake-format = {
+          command = lib.getExe pkgs.cmake-format;
+        };
       };
     };
   };

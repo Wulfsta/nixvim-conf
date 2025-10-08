@@ -1,7 +1,23 @@
-{ mkKey, mkPkgs, helpers, icons, specObj, inputs, ... }:
-let inherit (mkKey) mkKeymap;
-in {
-  wKeyList = [ (specObj [ "<leader>e" "" ]) ];
+{
+  mkKey,
+  mkPkgs,
+  helpers,
+  icons,
+  specObj,
+  inputs,
+  pkgs,
+  ...
+}:
+let
+  inherit (mkKey) mkKeymap;
+in
+{
+  wKeyList = [
+    (specObj [
+      "<leader>e"
+      ""
+    ])
+  ];
 
   extraPlugins = [
     (mkPkgs "nvim-window-picker" inputs.nvim-window-picker)
@@ -12,6 +28,8 @@ in {
       hint = 'floating-big-letter'
     })
   '';
+
+  extraPackages = with pkgs; [ gcc ];
 
   plugins.neo-tree = {
     enable = true;
@@ -64,13 +82,12 @@ in {
     };
   };
   keymaps = [
-    (mkKeymap "n" "<leader>e"
-      (helpers.mkRaw # lua
-        ''
-          function()
-            require("neo-tree.command").execute({ toggle = true, dir = vim.uv.cwd() })
-          end
-        '')
-      "Explorer NeoTree (cwd)")
+    (mkKeymap "n" "<leader>e" (helpers.mkRaw # lua
+      ''
+        function()
+          require("neo-tree.command").execute({ toggle = true, dir = vim.uv.cwd() })
+        end
+      ''
+    ) "Explorer NeoTree (cwd)")
   ];
 }

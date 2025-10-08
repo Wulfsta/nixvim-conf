@@ -1,4 +1,5 @@
-{ icons, ... }: {
+{ icons, ... }:
+{
   plugins.dashboard = {
     enable = true;
     settings = {
@@ -7,7 +8,11 @@
       theme = "hyper";
       config = {
         week_header.enable = true;
-        footer = [ " " " " "Don't Stop Until You are Proud" ];
+        footer = [
+          " "
+          " "
+          "Don't Stop Until You are Proud"
+        ];
         shortcut = [
           {
             desc = "  prevSession ";

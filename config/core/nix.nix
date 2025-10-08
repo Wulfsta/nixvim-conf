@@ -1,4 +1,10 @@
-{ lib, mkKey, specObj, pkgs, ... }:
+{
+  lib,
+  mkKey,
+  specObj,
+  pkgs,
+  ...
+}:
 let
   inherit (mkKey) mkKeymap;
 in
@@ -11,7 +17,9 @@ with lib;
         nix = [ "nixfmt" ];
       };
       formatters = {
-        nixfmt = { command = lib.getExe pkgs.nixfmt-rfc-style; };
+        nixfmt = {
+          command = lib.getExe pkgs.nixfmt-rfc-style;
+        };
       };
     };
     lsp = {
@@ -33,6 +41,10 @@ with lib;
     '';
 
   wKeyList = [
-    (specObj [ "<leader>l" "󰿘" "lsp" ])
+    (specObj [
+      "<leader>l"
+      "󰿘"
+      "lsp"
+    ])
   ];
 }

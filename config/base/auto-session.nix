@@ -1,6 +1,8 @@
 { mkKey, ... }:
-let inherit (mkKey) mkKeymap;
-in {
+let
+  inherit (mkKey) mkKeymap;
+in
+{
   plugins.auto-session = {
     enable = true;
     settings = {
@@ -13,7 +15,6 @@ in {
     (mkKeymap "n" "<leader>ql" "<cmd>Autosession search<CR>" "List Session")
     (mkKeymap "n" "<leader>qd" "<cmd>Autosession delete<CR>" "Delete Session")
     (mkKeymap "n" "<leader>qs" "<cmd>SessionSave<CR>" "Save Session")
-    (mkKeymap "n" "<leader>qD" "<cmd>SessionPurgeOrphaned<CR>"
-      "Purge Orphaned Sessions")
+    (mkKeymap "n" "<leader>qD" "<cmd>SessionPurgeOrphaned<CR>" "Purge Orphaned Sessions")
   ];
 }

@@ -13,11 +13,18 @@
     };
     conform-nvim.settings = {
       formatters_by_ft = {
-        python = [ "isort" "ruff" ];
+        python = [
+          "isort"
+          "ruff"
+        ];
       };
       formatters = {
-        isort = { command = lib.getExe pkgs.isort; };
-        ruff = { command = lib.getExe pkgs.ruff; };
+        isort = {
+          command = lib.getExe pkgs.isort;
+        };
+        ruff = {
+          command = lib.getExe pkgs.ruff;
+        };
       };
     };
   };

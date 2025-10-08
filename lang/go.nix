@@ -14,7 +14,9 @@
         go = [ "gofmt" ];
       };
       formatters = {
-        gofmt = { command = lib.getExe pkgs.go + " fmt"; };
+        gofmt = {
+          command = lib.getExe pkgs.go + " fmt";
+        };
       };
     };
   };

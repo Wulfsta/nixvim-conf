@@ -13,7 +13,15 @@
   };
 
   wKeyList = [
-    (specObj [ "<leader>t" "" "tex" ])
-    (specObj [ "<leader>tl" "" "vimtex" ])
+    (specObj [
+      "<leader>t"
+      ""
+      "tex"
+    ])
+    (specObj [
+      "<leader>tl"
+      ""
+      "vimtex"
+    ])
   ];
 }

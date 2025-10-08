@@ -1,5 +1,11 @@
-{ lib, pkgs, opts, ... }:
-with lib; {
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
+with lib;
+{
   enableMan = true;
   viAlias = true;
   vimAlias = true;
@@ -57,7 +63,9 @@ with lib; {
     list = true;
     smoothscroll = true;
     scrolloff = 1;
-    fillchars = { eob = " "; };
+    fillchars = {
+      eob = " ";
+    };
 
     #interval for writing swap file to disk, also used by gitsigns
     updatetime = 250;

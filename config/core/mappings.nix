@@ -1,4 +1,9 @@
-{ mkKey, specObj, helpers, ... }:
+{
+  mkKey,
+  specObj,
+  helpers,
+  ...
+}:
 let
   inherit (mkKey) mkKeymap mkKeymap' mkKeymapWithOpts;
   insert = [
@@ -21,39 +26,38 @@ let
     (mkKeymap "n" "<s-l>" "<esc>:bnext<cr>" "Buffer Next")
 
     (mkKeymap "n" "<leader>qq" "<cmd>quitall!<cr>" "Quit!")
-    (mkKeymap "n" "<leader>qc"
-      (helpers.mkRaw # lua
-        ''
-          function()
-            local wins = vim.api.nvim_tabpage_list_wins(0)
-            local non_floating_wins = 0
+    (mkKeymap "n" "<leader>qc" (helpers.mkRaw # lua
+      ''
+        function()
+          local wins = vim.api.nvim_tabpage_list_wins(0)
+          local non_floating_wins = 0
 
-            -- Count non-floating windows
-            for _, win in ipairs(wins) do
-              local config = vim.api.nvim_win_get_config(win)
-              if not config.relative or config.relative == "" then
-                non_floating_wins = non_floating_wins + 1
-              end
-            end
-
-            -- Close window or buffer based on the number of non-floating windows
-            if non_floating_wins > 1 then
-              vim.cmd("close")
-            elseif #vim.fn.getbufinfo({buflisted = 1}) > 1 then
-              vim.cmd('bdelete')  -- Delete the buffer if more than one buffer is open
-            else
-              vim.cmd('quit')  -- Quit Neovim if it's the last buffer
+          -- Count non-floating windows
+          for _, win in ipairs(wins) do
+            local config = vim.api.nvim_win_get_config(win)
+            if not config.relative or config.relative == "" then
+              non_floating_wins = non_floating_wins + 1
             end
           end
-        '')
-      "Buffer Close")
 
-    (mkKeymapWithOpts "n" "j" ''v:count || mode(1)[0:1] == "no" ? "j" : "gj"''
-      "Move down"
-      { expr = true; })
-    (mkKeymapWithOpts "n" "k" ''v:count || mode(1)[0:1] == "no" ? "k" : "gk"''
-      "Move up"
-      { expr = true; })
+          -- Close window or buffer based on the number of non-floating windows
+          if non_floating_wins > 1 then
+            vim.cmd("close")
+          elseif #vim.fn.getbufinfo({buflisted = 1}) > 1 then
+            vim.cmd('bdelete')  -- Delete the buffer if more than one buffer is open
+          else
+            vim.cmd('quit')  -- Quit Neovim if it's the last buffer
+          end
+        end
+      ''
+    ) "Buffer Close")
+
+    (mkKeymapWithOpts "n" "j" ''v:count || mode(1)[0:1] == "no" ? "j" : "gj"'' "Move down" {
+      expr = true;
+    })
+    (mkKeymapWithOpts "n" "k" ''v:count || mode(1)[0:1] == "no" ? "k" : "gk"'' "Move up" {
+      expr = true;
+    })
 
     (mkKeymap "n" "<leader><leader>" "<cmd>nohl<cr>" "no highlight!")
     (mkKeymap "n" "<leader>A" "gg0vG$" "select All")
@@ -69,20 +73,19 @@ let
     (mkKeymap "n" "<leader><tab>q" "<cmd>tabclose<cr>" "Close Tab")
     (mkKeymap "n" "<leader><tab>n" "<cmd>tabnew<cr>" "New Tab")
 
-    (mkKeymap "n" "<leader>ft"
-      (helpers.mkRaw # lua
-        ''
-          function()
-            vim.ui.input({ prompt = "Enter FileType: " }, function(input)
-              local ft = input
-              if not input or input == "" then
-                ft = vim.bo.filetype
-              end
-              vim.o.filetype = ft
-            end)
-          end
-        '')
-      "Set Filetype")
+    (mkKeymap "n" "<leader>ft" (helpers.mkRaw # lua
+      ''
+        function()
+          vim.ui.input({ prompt = "Enter FileType: " }, function(input)
+            local ft = input
+            if not input or input == "" then
+              ft = vim.bo.filetype
+            end
+            vim.o.filetype = ft
+          end)
+        end
+      ''
+    ) "Set Filetype")
 
     (mkKeymap "n" "n" "nzzzv" "Move to center")
     (mkKeymap "n" "N" "Nzzzv" "Moving to center")
@@ -103,28 +106,74 @@ let
 
   ];
   xv = [
-    (mkKeymapWithOpts "x" "j" ''v:count || mode(1)[0:1] == "no" ? "j" : "gj"''
-      "Move down"
-      { expr = true; })
-    (mkKeymapWithOpts "x" "k" ''v:count || mode(1)[0:1] == "no" ? "k" : "gk"''
-      "Move up"
-      { expr = true; })
+    (mkKeymapWithOpts "x" "j" ''v:count || mode(1)[0:1] == "no" ? "j" : "gj"'' "Move down" {
+      expr = true;
+    })
+    (mkKeymapWithOpts "x" "k" ''v:count || mode(1)[0:1] == "no" ? "k" : "gk"'' "Move up" {
+      expr = true;
+    })
   ];
 in
 {
   keymaps = insert ++ normal ++ v ++ xv;
   wKeyList = [
-    (specObj [ "<leader>A" "" "" "true" ])
-    (specObj [ "<leader><leader>" "" "" "true" ])
-    (specObj [ "<leader>q" "" "quit/session" ])
-    (specObj [ "<leader><tab>" "" "tabs" ])
-    (specObj [ "z" "" "fold" ])
-    (specObj [ "g" "" "goto" ])
-    (specObj [ "[" "" "next" ])
-    (specObj [ "]" "" "prev" ])
-    (specObj [ "<leader>u" "󰔎" "ui" ])
-    (specObj [ "<leader>|" "" "vsplit" ])
-    (specObj [ "<leader>-" "" "split" ])
+    (specObj [
+      "<leader>A"
+      ""
+      ""
+      "true"
+    ])
+    (specObj [
+      "<leader><leader>"
+      ""
+      ""
+      "true"
+    ])
+    (specObj [
+      "<leader>q"
+      ""
+      "quit/session"
+    ])
+    (specObj [
+      "<leader><tab>"
+      ""
+      "tabs"
+    ])
+    (specObj [
+      "z"
+      ""
+      "fold"
+    ])
+    (specObj [
+      "g"
+      ""
+      "goto"
+    ])
+    (specObj [
+      "["
+      ""
+      "next"
+    ])
+    (specObj [
+      "]"
+      ""
+      "prev"
+    ])
+    (specObj [
+      "<leader>u"
+      "󰔎"
+      "ui"
+    ])
+    (specObj [
+      "<leader>|"
+      ""
+      "vsplit"
+    ])
+    (specObj [
+      "<leader>-"
+      ""
+      "split"
+    ])
   ];
 
   # For some reason `mkKeymap` assingment freezes neovim
