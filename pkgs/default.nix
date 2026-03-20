@@ -14,7 +14,7 @@
     }:
     let
       extraSpecialArgs = {
-        inherit inputs;
+        inherit inputs system;
         inherit (self) opts;
       }
       // import "${self}/lib" { inherit lib pkgs; };

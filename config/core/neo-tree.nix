@@ -1,11 +1,11 @@
 {
   mkKey,
   mkPkgs,
-  helpers,
   icons,
   specObj,
   inputs,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -34,55 +34,77 @@ in
   plugins.neo-tree = {
     enable = true;
 
-    usePopupsForInput = false;
-
-    extraSources = [ "document_symbols" ];
-    sourceSelector.winbar = true;
-    buffers.followCurrentFile.enabled = true;
-    filesystem.window.mappings."F" = "fuzzy_finder_directory";
-    defaultComponentConfigs = {
-      diagnostics.symbols = {
-        hint = "${icons.diagnostics.BoldHint}";
-        info = "${icons.diagnostics.BoldInformation}";
-        warn = "${icons.diagnostics.BoldWarning}";
-        error = "${icons.diagnostics.BoldError}";
-      };
-      gitStatus.symbols = {
-        unstaged = "${icons.git.FileUnstaged}";
-        staged = "${icons.git.FileStaged}";
-        renamed = "${icons.git.FileRenamed}";
-        untracked = "${icons.git.FileUntracked}";
-        deleted = "${icons.git.FileDeleted}";
-        ignored = "${icons.git.FileIgnored}";
-      };
-    };
-    window = {
-      position = "right";
-      autoExpandWidth = true;
-      mappings = {
-        "s" = "open_split";
-        "v" = "open_vsplit";
-        "l" = "open_with_window_picker";
-        "<cr>" = "open_with_window_picker";
-        "<C-d>" = {
-          command = "scroll_preview";
-          config.direction = -10;
+    settings = {
+      sources = [
+        "filesystem"
+        "buffers"
+        "git_status"
+        "document_symbols"
+      ];
+      source_selector.winbar = true;
+      use_popups_for_input = false;
+      default_component_configs = {
+        diagnostics.symbols = {
+          hint = "${icons.diagnostics.BoldHint}";
+          info = "${icons.diagnostics.BoldInformation}";
+          warn = "${icons.diagnostics.BoldWarning}";
+          error = "${icons.diagnostics.BoldError}";
         };
-        "<C-u>" = {
-          command = "scroll_preview";
-          config.direction = 10;
+        git_status.symbols = {
+          unstaged = "${icons.git.FileUnstaged}";
+          staged = "${icons.git.FileStaged}";
+          renamed = "${icons.git.FileRenamed}";
+          untracked = "${icons.git.FileUntracked}";
+          deleted = "${icons.git.FileDeleted}";
+          ignored = "${icons.git.FileIgnored}";
         };
-        "<space>" = "none";
-        "K" = "focus_preview";
-        "P" = {
-          command = "toggle_preview";
-          config.use_float = true;
+      };
+      buffers.follow_current_file.enabled = true;
+      defaultComponentConfigs = {
+        diagnostics.symbols = {
+          hint = "${icons.diagnostics.BoldHint}";
+          info = "${icons.diagnostics.BoldInformation}";
+          warn = "${icons.diagnostics.BoldWarning}";
+          error = "${icons.diagnostics.BoldError}";
+        };
+        gitStatus.symbols = {
+          unstaged = "${icons.git.FileUnstaged}";
+          staged = "${icons.git.FileStaged}";
+          renamed = "${icons.git.FileRenamed}";
+          untracked = "${icons.git.FileUntracked}";
+          deleted = "${icons.git.FileDeleted}";
+          ignored = "${icons.git.FileIgnored}";
+        };
+      };
+      filesystem.window.mappings."F" = "fuzzy_finder_directory";
+      window = {
+        position = "right";
+        autoExpandWidth = true;
+        mappings = {
+          "s" = "open_split";
+          "v" = "open_vsplit";
+          "l" = "open_with_window_picker";
+          "<cr>" = "open_with_window_picker";
+          "<C-d>" = {
+            command = "scroll_preview";
+            config.direction = -10;
+          };
+          "<C-u>" = {
+            command = "scroll_preview";
+            config.direction = 10;
+          };
+          "<space>" = "none";
+          "K" = "focus_preview";
+          "P" = {
+            command = "toggle_preview";
+            config.use_float = true;
+          };
         };
       };
     };
   };
   keymaps = [
-    (mkKeymap "n" "<leader>e" (helpers.mkRaw # lua
+    (mkKeymap "n" "<leader>e" (lib.nixvim.mkRaw # lua
       ''
         function()
           require("neo-tree.command").execute({ toggle = true, dir = vim.uv.cwd() })

@@ -1,7 +1,6 @@
 {
   mkKey,
   specObj,
-  helpers,
   pkgs,
   lib,
   ...
@@ -38,7 +37,7 @@ in
         pickers = {
           find_files = {
             hidden = true;
-            find_command = helpers.listToUnkeyedAttrs [
+            find_command = lib.nixvim.listToUnkeyedAttrs [
               "${lib.getExe pkgs.ripgrep}"
               "--files"
               "--color"
@@ -57,9 +56,9 @@ in
           };
           mappings = {
             n = {
-              q = helpers.mkRaw "require('telescope.actions').close";
-              s = helpers.mkRaw "require('telescope.actions').select_horizontal";
-              v = helpers.mkRaw "require('telescope.actions').select_vertical";
+              q = lib.nixvim.mkRaw "require('telescope.actions').close";
+              s = lib.nixvim.mkRaw "require('telescope.actions').select_horizontal";
+              v = lib.nixvim.mkRaw "require('telescope.actions').select_vertical";
             };
           };
         };
@@ -86,12 +85,12 @@ in
     (mkKeymap "n" "<leader>st" "<cmd>TodoTelescope<cr>" "Todo")
     (mkKeymap "n" "<leader>sT" "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>" "Todo/Fix/Fixme")
 
-    (mkKeymap "n" "]t" (helpers.mkRaw # lua
+    (mkKeymap "n" "]t" (lib.nixvim.mkRaw # lua
       ''
         function() require("todo-comments").jump_next() end
       ''
     ) "Next Todo Comment")
-    (mkKeymap "n" "[t" (helpers.mkRaw # lua
+    (mkKeymap "n" "[t" (lib.nixvim.mkRaw # lua
       ''
         function() require("todo-comments").jump_prev() end
       ''

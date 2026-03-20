@@ -2,6 +2,7 @@
   lib,
   pkgs,
   opts,
+  system,
   ...
 }:
 with lib;
@@ -10,7 +11,7 @@ with lib;
   viAlias = true;
   vimAlias = true;
 
-  clipboard.providers.wl-copy.enable = pkgs.system == "x86_64-linux";
+  clipboard.providers.wl-copy.enable = system == "x86_64-linux";
 
   globals = {
     mapleader = " ";

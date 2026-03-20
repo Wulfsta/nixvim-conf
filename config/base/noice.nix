@@ -1,4 +1,4 @@
-{ mkKey, helpers, ... }:
+{ mkKey, lib, ... }:
 let
   inherit (mkKey) mkKeymap;
 in
@@ -30,7 +30,7 @@ in
     };
   };
   keymaps = [
-    (mkKeymap "n" "<leader>un" (helpers.mkRaw "function () require('notify').dismiss() end")
+    (mkKeymap "n" "<leader>un" (lib.nixvim.mkRaw "function () require('notify').dismiss() end")
       "Dismiss notification"
     )
   ];

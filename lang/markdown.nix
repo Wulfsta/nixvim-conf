@@ -3,7 +3,7 @@
   inputs,
   pkgs,
   specObj,
-  helpers,
+  lib,
   ...
 }:
 {
@@ -20,7 +20,7 @@
       event = "Filetype";
       pattern = "markdown";
       callback =
-        helpers.mkRaw # lua
+        lib.nixvim.mkRaw # lua
           ''
             function()
               -- Set keymap: <leader>p to save and convert to PDF using pandoc
@@ -34,7 +34,7 @@
       event = "BufUnload";
       pattern = "*.md";
       callback =
-        helpers.mkRaw # lua
+        lib.nixvim.mkRaw # lua
           ''
             function()
               -- Set keymap: <leader>p to save and convert to PDF using pandoc

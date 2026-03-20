@@ -1,7 +1,7 @@
 {
   mkKey,
   specObj,
-  helpers,
+  lib,
   ...
 }:
 let
@@ -26,7 +26,7 @@ let
     (mkKeymap "n" "<s-l>" "<esc>:bnext<cr>" "Buffer Next")
 
     (mkKeymap "n" "<leader>qq" "<cmd>quitall!<cr>" "Quit!")
-    (mkKeymap "n" "<leader>qc" (helpers.mkRaw # lua
+    (mkKeymap "n" "<leader>qc" (lib.nixvim.mkRaw # lua
       ''
         function()
           local wins = vim.api.nvim_tabpage_list_wins(0)
@@ -73,7 +73,7 @@ let
     (mkKeymap "n" "<leader><tab>q" "<cmd>tabclose<cr>" "Close Tab")
     (mkKeymap "n" "<leader><tab>n" "<cmd>tabnew<cr>" "New Tab")
 
-    (mkKeymap "n" "<leader>ft" (helpers.mkRaw # lua
+    (mkKeymap "n" "<leader>ft" (lib.nixvim.mkRaw # lua
       ''
         function()
           vim.ui.input({ prompt = "Enter FileType: " }, function(input)

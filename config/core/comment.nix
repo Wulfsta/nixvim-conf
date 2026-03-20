@@ -1,4 +1,4 @@
-{ mkKey, helpers, ... }:
+{ mkKey, lib, ... }:
 let
   inherit (mkKey) mkKeymap;
 in
@@ -6,7 +6,7 @@ in
   plugins.comment.enable = true;
   keymaps = [
     (mkKeymap "n" "<leader>/"
-      (helpers.mkRaw ''function() require("Comment.api").toggle.linewise.current() end'')
+      (lib.nixvim.mkRaw ''function() require("Comment.api").toggle.linewise.current() end'')
       "Toggle comment"
     )
     (mkKeymap "v" "<leader>/"

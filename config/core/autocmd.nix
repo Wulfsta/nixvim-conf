@@ -1,11 +1,11 @@
-{ opts, helpers, ... }:
+{ opts, lib, ... }:
 {
   autoCmd = [
     {
       desc = "Highlight on yank";
       event = [ "TextYankPost" ];
       callback =
-        helpers.mkRaw # lua
+        lib.nixvim.mkRaw # lua
           ''
             function()
               vim.highlight.on_yank()
@@ -16,7 +16,7 @@
       event = [ "CursorHold" ];
       desc = "lsp show diagnostics on CursorHold";
       callback =
-        helpers.mkRaw # lua
+        lib.nixvim.mkRaw # lua
           ''
             function()
              local hover_opts = {

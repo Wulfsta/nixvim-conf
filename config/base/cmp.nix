@@ -1,4 +1,4 @@
-{ opts, helpers, ... }:
+{ opts, lib, ... }:
 {
   highlightOverride = {
     PMenu = {
@@ -39,7 +39,7 @@
           { name = "buffer"; }
         ];
         mapping = (
-          helpers.mkRaw # lua
+          lib.nixvim.mkRaw # lua
             ''
               cmp.mapping.preset.insert({
                 ["<C-k>"] = cmp.mapping.select_prev_item(),

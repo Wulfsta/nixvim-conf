@@ -1,6 +1,6 @@
 {
   mkKey,
-  helpers,
+  lib,
   icons,
   specObj,
   ...
@@ -57,14 +57,14 @@ in
     (mkKeymap "n" "<leader>gl" "<cmd>lua require('gitsigns').blame_line()<cr>" "Blame")
     (mkKeymap "n" "<leader>ghd" "<cmd>lua require('gitsigns').diffthis()<cr>" "Diff This")
     (mkKeymap "n" "<leader>ghD" "<cmd>lua require('gitsigns').diffthis('~')<cmd>" "Diff This ~")
-    (mkKeymap "n" "]H" (helpers.mkRaw # lua
+    (mkKeymap "n" "]H" (lib.nixvim.mkRaw # lua
       ''
         function()
           require 'gitsigns'.nav_hunk("last")
         end
       ''
     ) "Last Hunk")
-    (mkKeymap "n" "[H" (helpers.mkRaw # lua
+    (mkKeymap "n" "[H" (lib.nixvim.mkRaw # lua
       ''
         function()
           require 'gitsigns'.nav_hunk("first")
