@@ -56,7 +56,7 @@ in
             opencode = {
               __raw = ''
                 function()
-                  local cwd = vim.fn.getcwd()
+                  local cwd = vim.fn.shellescape(vim.fn.getcwd())
                   return require("codecompanion.adapters").extend("opencode", {
                     commands = {
                       default = {
