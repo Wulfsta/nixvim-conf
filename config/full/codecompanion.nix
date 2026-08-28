@@ -13,7 +13,13 @@ let
       provider.llamacpp = {
         npm = "@ai-sdk/openai-compatible";
         options.baseURL = "http://127.0.0.1:8000/v1";
-        models.local = { };
+        models.local = {
+          limit = {
+            # Inform OpenCode of the context size, since it seemingly does not read it from the models endpoint.
+            context = 65536;
+            output = 65536;
+          };
+        };
       };
       model = "llamacpp/local";
     }
@@ -88,6 +94,14 @@ in
           send_code = true;
           use_default_actions = true;
           use_default_prompts = true;
+          context_management = {
+            editing = {
+              trigger = 0.65;
+            };
+            compaction = {
+              trigger = 0.85;
+            };
+          };
         };
         strategies = {
           agent = {
