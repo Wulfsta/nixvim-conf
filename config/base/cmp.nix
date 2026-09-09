@@ -36,7 +36,22 @@
           { name = "nvim_lsp"; }
           { name = "nvim_lsp_signature_help"; }
           { name = "path"; }
-          { name = "buffer"; }
+          {
+            name = "buffer";
+            option = {
+              get_bufnrs = lib.nixvim.mkRaw ''
+                function()
+                  local bufs = {}
+                  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                    if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype ~= "codecompanion" then
+                      table.insert(bufs, buf)
+                    end
+                  end
+                  return bufs
+                end
+              '';
+            };
+          }
         ];
         mapping = (
           lib.nixvim.mkRaw # lua

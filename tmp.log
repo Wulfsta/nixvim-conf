@@ -1,0 +1,7 @@
+29%  languagetree.lua:
+25%  query.lua:0
+12%  _range.lua:unpack4
+ 9%  languagetree.lua:is_valid
+ 9%  _range.lua:intercepts
+ 4%  _range.lua:le
+ 3%  languagetree.lua:_edit
