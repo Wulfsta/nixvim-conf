@@ -16,8 +16,8 @@ let
         models.local = {
           limit = {
             # Inform OpenCode of the context size, since it seemingly does not read it from the models endpoint.
-            context = 65536;
-            output = 65536;
+            context = 98304;
+            output = 98304;
           };
         };
       };
@@ -37,7 +37,7 @@ in
                 function()
                   return require("codecompanion.adapters").extend("openai_compatible", {
                     env = {
-                      url = "http://127.0.0.1:8000", -- replace with your llama.cpp instance
+                      url = "http://127.0.0.1:8000",
                       api_key = "TERM",
                       chat_url = "/v1/chat/completions",
                     },
