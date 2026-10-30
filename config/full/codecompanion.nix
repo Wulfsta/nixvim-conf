@@ -24,6 +24,70 @@ let
       model = "llamacpp/local";
     }
   );
+
+  opencodeCmd =
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      ''
+        local uv = vim.uv
+        local cwd = uv.fs_realpath(vim.fn.getcwd())
+        local conf = uv.fs_realpath((vim.env.XDG_CONFIG_HOME or (vim.env.HOME .. "/.config")) .. "/opencode")
+          or "/var/empty"
+        local scratch = vim.fn.tempname() -- throwaway $HOME, deleted when nvim exits
+        vim.fn.mkdir(scratch .. "/.config/opencode", "p")
+        scratch = uv.fs_realpath(scratch)
+        local own = { node_modules = true, ["package.json"] = true, ["bun.lock"] = true, [".gitignore"] = true }
+        for name in vim.fs.dir(conf) do
+          if not own[name] then
+            uv.fs_symlink(conf .. "/" .. name, scratch .. "/.config/opencode/" .. name)
+          end
+        end
+        local cmd = {
+          "/usr/bin/sandbox-exec",
+          "-D", "CWD=" .. cwd, "-D", "SCRATCH=" .. scratch, "-D", "CONFIG=" .. conf,
+          "-p", [[
+            (version 1)
+            (allow default)
+            (deny file-write*)
+            (deny file-read-data file-read-xattr
+              (subpath "/Users") (subpath "/Volumes")
+              (subpath "/private/tmp") (subpath "/private/var/folders"))
+            (allow file-read-data file-read-xattr
+              (subpath (param "CWD")) (subpath (param "SCRATCH")) (subpath (param "CONFIG")))
+            (allow file-write* (subpath (param "CWD")) (subpath (param "SCRATCH")))
+            (allow file-write* (literal "/dev/null") (literal "/dev/zero") (literal "/dev/dtracehelper")
+              (regex #"^/dev/fd/"))
+            (deny network-outbound (remote unix-socket))
+            (allow network-outbound (remote unix-socket (path-literal "/private/var/run/mDNSResponder")))
+            (allow network-outbound (remote unix-socket (path-literal "/nix/var/nix/daemon-socket/socket")))
+          ]],
+          "/usr/bin/env", "-i", "HOME=" .. scratch, "TMPDIR=" .. scratch,
+        }
+        for _, k in ipairs({ "PATH", "NIX_SSL_CERT_FILE", "LANG", "ANTHROPIC_API_KEY" }) do
+          if vim.env[k] then table.insert(cmd, k .. "=" .. vim.env[k]) end
+        end
+        vim.list_extend(cmd, { "${opencodeExe}", "acp" })
+      ''
+    else
+      ''
+        local cwd = vim.fn.shellescape(vim.fn.getcwd())
+        local cmd = {
+          "systemd-run", "--user", "--pipe", "--collect", "--quiet",
+          "--setenv=OPENCODE_CONFIG=${opencodeConfig}",
+          "--setenv=HOME=/tmp/home",
+          "-p", "ProtectSystem=strict",
+          "-p", "ProtectHome=tmpfs",
+          "-p", "PrivateTmp=yes",
+          "-p", "InaccessiblePaths=/var",
+          "-p", "NoNewPrivileges=yes",
+          "-p", "PrivateDevices=yes",
+          "-p", "ProtectKernelTunables=yes",
+          "-p", "ProtectKernelModules=yes",
+          "-p", "ProtectControlGroups=yes",
+          "-p", "BindPaths=" .. cwd,
+          "--",
+          "${opencodeExe}", "acp",
+        }
+      '';
 in
 {
   plugins = {
@@ -62,27 +126,9 @@ in
             opencode = {
               __raw = ''
                 function()
-                  local cwd = vim.fn.shellescape(vim.fn.getcwd())
+                  ${opencodeCmd}
                   return require("codecompanion.adapters").extend("opencode", {
-                    commands = {
-                      default = {
-                        "systemd-run", "--user", "--pipe", "--collect", "--quiet",
-                        "--setenv=OPENCODE_CONFIG=${opencodeConfig}",
-                        "--setenv=HOME=/tmp/home",
-                        "-p", "ProtectSystem=strict",
-                        "-p", "ProtectHome=tmpfs",
-                        "-p", "PrivateTmp=yes",
-                        "-p", "InaccessiblePaths=/var",
-                        "-p", "NoNewPrivileges=yes",
-                        "-p", "PrivateDevices=yes",
-                        "-p", "ProtectKernelTunables=yes",
-                        "-p", "ProtectKernelModules=yes",
-                        "-p", "ProtectControlGroups=yes",
-                        "-p", "BindPaths=" .. cwd,
-                        "--",
-                        "${opencodeExe}", "acp",
-                      },
-                    },
+                    commands = { default = cmd },
                   })
                 end
               '';
@@ -111,7 +157,7 @@ in
             adapter = "opencode";
           };
           inline = {
-            adapter = "llama";
+            adapter = if pkgs.stdenv.hostPlatform.isDarwin then "opencode" else "llama";
           };
         };
       };
